@@ -28,7 +28,8 @@
       "scripthost"
     ],
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "jest"
     ]
   },
   "include": [

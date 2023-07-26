@@ -4,8 +4,6 @@ const { VueLoaderPlugin } = require('vue-loader')
 
 const UnVueCom = require('unplugin-vue-components/webpack')
 
-const { ArcoResolver } = require('unplugin-vue-components/resolvers')
-
 const UnAudoImport = require('unplugin-auto-import/webpack')
 
 const esbuild = require('esbuild')
@@ -45,6 +43,9 @@ module.exports = {
         exclude: /node_modules/,
         include: /src/,
         use: [
+          // ts loader可以从esbuild和swc二选一
+          // '@swc-node/loader',
+          // 这里选择esbuild
           {
             loader: 'esbuild-loader',
             options: { loader: 'ts', implementation: esbuild },
@@ -58,10 +59,11 @@ module.exports = {
         use: [
           'thread-loader',
           'babel-loader',
-          {
-            loader: 'esbuild-loader',
-            options: { jsxFactory: 'h' },
-          },
+          // 可选前置一个esbuild-loader
+          // {
+          //   loader: 'esbuild-loader',
+          //   options: { jsxFactory: 'h' },
+          // },
         ],
       },
       {
@@ -105,21 +107,9 @@ module.exports = {
     UnAudoImport({
       dts: true,
       imports: ['vue', 'vue-router'],
-      resolvers: [
-        ArcoResolver({
-          resolveIcons: true,
-        }),
-      ],
     }),
     UnVueCom({
       dts: true,
-      resolvers: [
-        ArcoResolver({
-          sideEffect: true,
-          esm: true,
-          resolveIcons: true,
-        }),
-      ],
     }),
   ],
 }

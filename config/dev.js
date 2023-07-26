@@ -9,13 +9,13 @@ const esbuild = require('esbuild')
  */
 module.exports = merge(BaseConfig, {
   mode: 'development',
-  cache: {
-    type: 'filesystem',
-    allowCollectingMemory: true,
-    buildDependencies: {
-      config: [__filename],
-    },
-  },
+  // cache: {
+  //   type: 'filesystem',
+  //   allowCollectingMemory: true,
+  //   buildDependencies: {
+  //     config: [__filename],
+  //   },
+  // },
   devtool: 'inline-source-map',
   output: {
     publicPath: '/',
