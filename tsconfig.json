@@ -38,10 +38,9 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "config/**/*.ts",
-    "**/*.d.ts",
-    "../server/src/trpc.ts"
+    "**/*.d.ts"
   ],
   "exclude": [
     "node_modules"
-  ],
+  ]
 }

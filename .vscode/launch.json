@@ -8,12 +8,12 @@
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against localhost",
-      "url": "http://localhost:8080/",
+      "url": "http://localhost:8080/h5_release/vue/",
       "sourceMaps": true,
       // 以下用来设置调试跨域
       "runtimeArgs": [
-        "--disable-web-security",
-        "--user-data-dir=${workspaceFolder}/.vscode/chrome",
+        // "--disable-web-security",
+        // "--user-data-dir=${workspaceFolder}/.vscode/chrome",
         "--auto-open-devtools-for-tabs"
       ],
     }

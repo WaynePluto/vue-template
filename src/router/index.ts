@@ -1,7 +1,14 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+
+function getRouterBase() {
+  const path = location.pathname
+  const base = path.substring(0, path.lastIndexOf('/'))
+  console.log(`====base:${base}`)
+  return base
+}
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(getRouterBase()),
   routes: [],
 })
 

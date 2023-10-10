@@ -1,5 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
 const path = require('path')
+
 const { VueLoaderPlugin } = require('vue-loader')
 
 const UnVueCom = require('unplugin-vue-components/webpack')
@@ -10,12 +12,19 @@ const esbuild = require('esbuild')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
-const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader'
+const stylesHandler = isProduction
+  ? {
+      loader: MiniCssExtractPlugin.loader,
+      options: {
+        publicPath: '../',
+      },
+    }
+  : 'style-loader'
 
 const baseCssLoader = [stylesHandler, 'css-loader', 'postcss-loader']
 
 /**
- * @type {import('webpack').Configuration & {devServer:import('webpack-dev-server').DevServerConfiguration}}
+ * @type {import('webpack').Configuration}
  */
 module.exports = {
   entry: './src/main.ts',
@@ -23,7 +32,7 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, '../src'),
     },
-    extensions: ['.ts', '.tsx', '.js', '.vue'],
+    extensions: ['.ts', '.tsx', '.js', '.mjs', '.vue'],
     extensionAlias: {
       '.js': ['.js', '.ts'],
       '.cjs': ['.cjs', '.cts'],
@@ -34,14 +43,10 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        exclude: /node_modules/,
-        include: /src/,
         use: ['vue-loader'],
       },
       {
-        test: /\.[t|j]s$/,
-        exclude: /node_modules/,
-        include: /src/,
+        test: /\.[t|j|mj]s$/,
         use: [
           // ts loader可以从esbuild和swc二选一
           // '@swc-node/loader',
@@ -54,47 +59,22 @@ module.exports = {
       },
       {
         test: /\.tsx$/,
-        exclude: /node_modules/,
-        include: /src/,
-        use: [
-          'thread-loader',
-          'babel-loader',
-          // 可选前置一个esbuild-loader
-          // {
-          //   loader: 'esbuild-loader',
-          //   options: { jsxFactory: 'h' },
-          // },
-        ],
+        use: ['thread-loader', 'babel-loader'],
       },
       {
         test: /\.less$/i,
-        include: /src|@arco-design/,
         use: [...baseCssLoader, 'less-loader'],
       },
       {
         test: /\.s[ac]ss$/i,
-        exclude: /node_modules/,
-        include: /src/,
-        use: [
-          ...baseCssLoader,
-          {
-            loader: 'sass-loader',
-            options: {
-              additionalData: `@import "@/styles/global.scss";
-            @import "@/styles/breakpoint.scss";`,
-            },
-          },
-        ],
+        use: [...baseCssLoader, 'sass-loader'],
       },
       {
         test: /\.css$/i,
-        include: /src|nprogress|@arco-design/,
         use: [...baseCssLoader],
       },
       {
-        test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
-        exclude: /node_modules/,
-        include: /src/,
+        test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2|mp3)$/i,
         type: 'asset/resource',
         generator: {
           filename: 'images/[hash][ext][query]',
