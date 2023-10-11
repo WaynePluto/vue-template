@@ -32,6 +32,7 @@ module.exports = merge(BaseConfig, {
     rules: [
       {
         test: /\.[t|j]s$/,
+        include: /src/,
         use: [
           'babel-loader',
           {

@@ -21,14 +21,14 @@ const hostUrl = `http://${getIPAdress()}:${port}${publicPath}`
  */
 module.exports = merge(BaseConfig, {
   mode: 'development',
-  // cache: {
-  //   type: 'filesystem',
-  //   allowCollectingMemory: true,
-  //   buildDependencies: {
-  //     config: [__filename],
-  //   },
-  //   store: 'pack',
-  // },
+  cache: {
+    type: 'filesystem',
+    allowCollectingMemory: true,
+    buildDependencies: {
+      config: [__filename],
+    },
+    store: 'pack',
+  },
   devtool: 'eval-source-map',
   output: {
     publicPath: publicPath,
