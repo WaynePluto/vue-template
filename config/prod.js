@@ -18,9 +18,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const TerserPlugin = require('terser-webpack-plugin')
 
-const cdn = require('./cdn-prod')
-
-const esbuild = require('esbuild')
+const cdn = require('./utils/cdn-prod')
 
 /**
  * @type {import('webpack').Configuration}
@@ -32,15 +30,13 @@ module.exports = merge(BaseConfig, {
     rules: [
       {
         test: /\.[t|j]s$/,
+        exclude: /node_modules/,
         include: /src/,
         use: [
           'babel-loader',
           {
             loader: 'esbuild-loader',
-            options: {
-              loader: 'ts',
-              implementation: esbuild,
-            },
+            options: { loader: 'ts' },
           },
         ],
       },
@@ -50,7 +46,7 @@ module.exports = merge(BaseConfig, {
     new CleanWebpackPlugin(),
     // new BundleAnalyzerPlugin({ analyzerPort: 'auto' }),
     new HtmlWebpackPlugin({
-      title: 'vue',
+      title: 'vue-webpack',
       template: path.join(__dirname, '../public/index.html'),
       inject: 'body',
       cdn,
@@ -75,6 +71,8 @@ module.exports = merge(BaseConfig, {
         chunkFilename: 'css/[id].[contenthash].css',
       }),
       new TerserPlugin({
+        // esbuild minify兼容性有问题, swcMinify测试平台打包报错
+        // minify: TerserPlugin.terserMinify(),
         terserOptions: {
           format: { comments: false },
         },

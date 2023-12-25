@@ -59,7 +59,13 @@ module.exports = {
       },
       {
         test: /\.tsx$/,
-        use: ['thread-loader', 'babel-loader'],
+        use: [
+          'babel-loader',
+          {
+            loader: 'ts-loader',
+            options: { appendTsxSuffixTo: [/TSX\.vue$/] },
+          },
+        ],
       },
       {
         test: /\.less$/i,

@@ -8,7 +8,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against localhost",
-      "url": "http://localhost:8080/h5_release/vue/",
+      "url": "http://localhost:8080/",
       "sourceMaps": true,
       // 以下用来设置调试跨域
       "runtimeArgs": [

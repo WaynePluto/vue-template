@@ -1,9 +1,8 @@
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 function getRouterBase() {
   const path = location.pathname
   const base = path.substring(0, path.lastIndexOf('/'))
-  console.log(`====base:${base}`)
   return base
 }
 
