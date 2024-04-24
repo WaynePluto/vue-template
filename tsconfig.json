@@ -5,6 +5,7 @@
     "moduleResolution": "Node",
     "strict": true,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -38,7 +39,8 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "config/**/*.ts",
-    "types/*.d.ts"
+    "types/*.d.ts",
+    "*.d.ts"
   ],
   "exclude": [
     "node_modules"

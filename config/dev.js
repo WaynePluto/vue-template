@@ -1,13 +1,25 @@
+const webpack = require('webpack')
+
 const BaseConfig = require('./base')
+
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 const FriendlyErrorsWebpackPlugin = require('@nuxt/friendly-errors-webpack-plugin')
+
+const esbuild = require('esbuild')
+
 const chalk = require('chalk')
+
 const path = require('path')
+
 const portfinder = require('portfinder')
-const { DefinePlugin } = require('webpack')
+
 const { merge } = require('webpack-merge')
+
 const cdn = require('./utils/cdn-dev')
+
 const proxy = require('./utils/proxy')
+
 const publicPath = '/'
 
 /**
@@ -30,6 +42,22 @@ module.exports = async function () {
       store: 'pack',
     },
     devtool: 'eval-source-map',
+    module: {
+      rules: [
+        {
+          test: /\.[t|j|mj]s$/,
+          use: [
+            // ts loader可以从esbuild和swc二选一
+            // '@swc-node/loader',
+            // 这里选择esbuild
+            {
+              loader: 'esbuild-loader',
+              options: { loader: 'ts', implementation: esbuild },
+            },
+          ],
+        },
+      ],
+    },
     output: {
       publicPath: publicPath,
       filename: 'js/[name].js',
@@ -44,16 +72,12 @@ module.exports = async function () {
         cdn,
         publicPath,
       }),
-      new DefinePlugin({
+      new webpack.DefinePlugin({
         CC_DEV: false,
       }),
       new FriendlyErrorsWebpackPlugin({
         compilationSuccessInfo: {
-          messages: [
-            `App running at:`,
-            `- Local: \t${chalk.cyan(localUrl)}`,
-            `- Host: \t${chalk.cyan(hostUrl)}\n`,
-          ],
+          messages: [`App running at:`, `- Local: \t${chalk.cyan(localUrl)}`, `- Host: \t${chalk.cyan(hostUrl)}\n`],
         },
         clearConsole: true,
       }),

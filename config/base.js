@@ -1,5 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
+const esbuild = require('esbuild')
+
 const path = require('path')
 
 const { VueLoaderPlugin } = require('vue-loader')
@@ -7,8 +9,6 @@ const { VueLoaderPlugin } = require('vue-loader')
 const UnVueCom = require('unplugin-vue-components/webpack')
 
 const UnAudoImport = require('unplugin-auto-import/webpack')
-
-const esbuild = require('esbuild')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -46,24 +46,20 @@ module.exports = {
         use: ['vue-loader'],
       },
       {
-        test: /\.[t|j|mj]s$/,
-        use: [
-          // ts loader可以从esbuild和swc二选一
-          // '@swc-node/loader',
-          // 这里选择esbuild
-          {
-            loader: 'esbuild-loader',
-            options: { loader: 'ts', implementation: esbuild },
-          },
-        ],
-      },
-      {
         test: /\.tsx$/,
         use: [
           'babel-loader',
+          // {
+          //   loader: 'ts-loader',
+          //   options: { appendTsxSuffixTo: [/TSX\.vue$/] },
+          // },
           {
-            loader: 'ts-loader',
-            options: { appendTsxSuffixTo: [/TSX\.vue$/] },
+            loader: 'esbuild-loader',
+            options: {
+              jsxFactory: 'h',
+              jsxFragment: 'Vue.Fragment',
+              implementation: esbuild,
+            },
           },
         ],
       },

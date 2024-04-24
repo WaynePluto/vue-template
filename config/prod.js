@@ -22,6 +22,8 @@ const TerserPlugin = require('terser-webpack-plugin')
 
 const cdn = require('./utils/cdn-prod')
 
+const publicPath = '/'
+
 /**
  * @type {import('webpack').Configuration}
  */
@@ -57,7 +59,7 @@ module.exports = merge(BaseConfig, {
       template: path.join(__dirname, '../public/index.html'),
       inject: 'body',
       cdn,
-      publicPath: './',
+      publicPath,
     }),
     new CopyPlugin({
       patterns: [{ from: 'public', globOptions: { ignore: ['**/index.html'] } }],
@@ -95,7 +97,7 @@ module.exports = merge(BaseConfig, {
     },
   },
   output: {
-    publicPath: './',
+    publicPath,
     filename: 'js/[name]-[chunkhash].js',
     clean: true,
     path: path.resolve(__dirname, '../dist'),
