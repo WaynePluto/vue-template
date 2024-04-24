@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 const BaseConfig = require('./base')
 
 const { merge } = require('webpack-merge')
@@ -43,6 +45,11 @@ module.exports = merge(BaseConfig, {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: 'true',
+      __VUE_PROD_DEVTOOLS__: 'false',
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
+    }),
     new CleanWebpackPlugin(),
     // new BundleAnalyzerPlugin({ analyzerPort: 'auto' }),
     new HtmlWebpackPlugin({
