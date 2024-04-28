@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 
+const esbuild = require('esbuild')
+
 const BaseConfig = require('./base')
 
 const { merge } = require('webpack-merge')
@@ -33,15 +35,56 @@ module.exports = merge(BaseConfig, {
   module: {
     rules: [
       {
-        test: /\.[t|j]s$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
         include: /src/,
         use: [
-          'babel-loader',
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                [
+                  '@babel/preset-env',
+                  {
+                    'useBuiltIns': 'usage',
+                    'corejs': '3',
+                  },
+                ],
+              ],
+              plugins: ['@babel/plugin-transform-runtime'],
+            },
+          },
           {
             loader: 'esbuild-loader',
-            options: { loader: 'ts' },
+            options: { loader: 'ts', implementation: esbuild },
           },
+        ],
+      },
+      {
+        test: /\.tsx$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              // babel-loader 编译 ts 速度更快
+              presets: [
+                '@babel/preset-typescript',
+                [
+                  '@babel/preset-env',
+                  {
+                    'useBuiltIns': 'usage',
+                    'corejs': '3',
+                  },
+                ],
+              ],
+              plugins: ['@vue/babel-plugin-jsx', '@babel/plugin-transform-runtime'],
+            },
+          },
+          // ts-loader语法支持更全，但是速度慢
+          // {
+          //   loader: 'ts-loader',
+          //   options: { appendTsxSuffixTo: [/TSX\.vue$/] },
+          // },
         ],
       },
     ],

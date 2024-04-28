@@ -45,15 +45,32 @@ module.exports = async function () {
     module: {
       rules: [
         {
-          test: /\.[t|j|mj]s$/,
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          include: /src/,
           use: [
-            // ts loader可以从esbuild和swc二选一
-            // '@swc-node/loader',
-            // 这里选择esbuild
             {
               loader: 'esbuild-loader',
               options: { loader: 'ts', implementation: esbuild },
             },
+          ],
+        },
+        {
+          test: /\.tsx$/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                // babel-loader 编译 ts 速度更快
+                presets: ['@babel/preset-typescript'],
+                plugins: ['@vue/babel-plugin-jsx'],
+              },
+            },
+            // ts-loader语法支持更全，但是速度慢
+            // {
+            //   loader: 'ts-loader',
+            //   options: { appendTsxSuffixTo: [/TSX\.vue$/] },
+            // },
           ],
         },
       ],

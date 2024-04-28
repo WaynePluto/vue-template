@@ -43,32 +43,16 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
+        exclude: /node_modules/,
+        include: /src/,
         use: ['vue-loader'],
-      },
-      {
-        test: /\.tsx$/,
-        use: [
-          'babel-loader',
-          // {
-          //   loader: 'ts-loader',
-          //   options: { appendTsxSuffixTo: [/TSX\.vue$/] },
-          // },
-          {
-            loader: 'esbuild-loader',
-            options: {
-              jsxFactory: 'h',
-              jsxFragment: 'Vue.Fragment',
-              implementation: esbuild,
-            },
-          },
-        ],
       },
       {
         test: /\.less$/i,
         use: [...baseCssLoader, 'less-loader'],
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.scss$/i,
         use: [...baseCssLoader, 'sass-loader'],
       },
       {
