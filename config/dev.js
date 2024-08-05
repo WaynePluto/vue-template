@@ -1,25 +1,14 @@
 const webpack = require('webpack')
-
 const BaseConfig = require('./base')
-
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
 const FriendlyErrorsWebpackPlugin = require('@nuxt/friendly-errors-webpack-plugin')
-
 const esbuild = require('esbuild')
-
 const chalk = require('chalk')
-
 const path = require('path')
-
 const portfinder = require('portfinder')
-
 const { merge } = require('webpack-merge')
-
 const cdn = require('./utils/cdn-dev')
-
 const proxy = require('./utils/proxy')
-
 const publicPath = '/'
 
 /**

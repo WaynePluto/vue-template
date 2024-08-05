@@ -1,29 +1,16 @@
 const webpack = require('webpack')
-
 const esbuild = require('esbuild')
-
 const BaseConfig = require('./base')
-
 const { merge } = require('webpack-merge')
-
 const path = require('path')
-
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
 const CopyPlugin = require('copy-webpack-plugin')
-
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-
 const CompressionPlugin = require('compression-webpack-plugin')
-
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
 const TerserPlugin = require('terser-webpack-plugin')
-
 const cdn = require('./utils/cdn-prod')
-
 const publicPath = '/'
 
 /**

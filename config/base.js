@@ -1,7 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const esbuild = require('esbuild')
-
 const path = require('path')
 
 const { VueLoaderPlugin } = require('vue-loader')
@@ -75,6 +73,8 @@ module.exports = {
       imports: ['vue', 'vue-router'],
     }),
     UnVueCom({
+      // 不扫描任何组件，只用来生成第三方库的组件声明
+      dirs: [],
       dts: true,
     }),
   ],
